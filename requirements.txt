@@ -1,0 +1,10 @@
+accelerate
+numpy
+sentencepiece
+Telethon
+tokenizers
+transformers
+torch
+torchaudio
+torchvision
+gradio
