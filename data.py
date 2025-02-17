@@ -7,7 +7,7 @@ class API:
 
     def load():
         API.__file = base64.b64decode(open('./data/API', 'rb').read()).decode().split('\n')
-        API.id = API.__file[0]
+        API.id = int(API.__file[0])
         API.hash = API.__file[1]
 
     def save():

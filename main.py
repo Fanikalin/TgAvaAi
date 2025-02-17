@@ -1,7 +1,13 @@
 from time import time, sleep
 from threading import Thread
-import subprocess
+from telethon import TelegramClient
 import gradio as gr
+import os
+
+import data
+import telegram
+
+os.environ['PYTHONIOENCODING'] =  'utf-8'
 
 theme = gr.themes.Soft(
     primary_hue="violet",
@@ -11,43 +17,24 @@ theme = gr.themes.Soft(
     radius_size="xxl",
 )
 
-class registration:
-    registration_process = subprocess.Popen(['./.venv/Scripts/python.exe', './registration.py'], stdout=subprocess.PIPE, stdin=subprocess.PIPE)
-    logs = ''
-    output = gr.Text()
-    input = gr.Text()
+def api_id_submit(api_id):
+    data.API.id = int(api_id)
 
-    def update_logs():
-        logs = '| '
-        while logs[-1] != ':':
-            print(logs)
-            logs += registration.registration_process.stdout.read(1).decode()
-        registration.logs += logs
+def api_hash_submit(api_hash):
+    data.API.hash = api_hash
 
-    def update_output():
-        registration.update_logs()
-        return registration.logs
-    
-    def update_input(text):
-        registration.registration_process.stdin.write(text.encode()+b'\n')
-        registration.logs = ''
-        return ''
-
-def api_start_button_on_click():
-    pass
+def api_reload_button_on_click():
+    telegram.init(data.API.id, data.API.hash)
 
 with gr.Blocks(theme=theme) as demo:
-    #with gr.Row():
-    #    with gr.Group() as api_group:
-    #        api_id = gr.Text(label='api_id')
-    #        api_hash = gr.Text(label='api_hash')
-    #        api_start_button = gr.Button(value='api_start_button')
+    with gr.Row():
+        with gr.Group() as api_group:
+            api_id = gr.Text(value=data.API.id, label='api_id')
+            api_hash = gr.Text(value=data.API.hash, label='api_hash')
+            api_reload_button = gr.Button(value='api_reload_button')
 
-    #        api_start_button.click(api_start_button_on_click)
-    #    with gr.Group() as registration_group:
-    #        registration.output = gr.Text(value=registration.update_output, label='registration_output', interactive=False, every=2)
-    #        registration.input = gr.Text(label='registration_input')
-
-    #        registration.input.submit(registration.update_input, inputs=[registration.input], outputs=[registration.input])
+            api_id.submit(api_id_submit, inputs=[api_id])
+            api_hash.submit(api_hash_submit, inputs=[api_hash])
+            api_reload_button.click(api_reload_button_on_click)
 
 demo.launch()
