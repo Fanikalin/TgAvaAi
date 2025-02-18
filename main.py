@@ -4,6 +4,13 @@ from telethon import TelegramClient
 import gradio as gr
 import os
 
+ai_author_name = 'MaxKazak'
+ai_model_name = 'ruBert-base-russian-emotion-detection'
+
+if not os.path.exists('./ai'):
+    os.system(f'git clone https://huggingface.co/{ai_author_name}/{ai_model_name}')
+    os.rename(f'./{ai_model_name}', 'ai')
+
 import data
 import telegram
 

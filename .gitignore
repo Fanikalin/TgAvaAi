@@ -1,6 +1,7 @@
 *.session
 *.session-journal
 data/
+ai/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
