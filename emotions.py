@@ -7,7 +7,7 @@ class Analyzer:
         self.history = []
 
     def push(self, text):
-        res = self.ai(text)
+        res = self.ai(text)[0]
         self.history.append(
             {
                 '_': res['label'],
@@ -17,4 +17,4 @@ class Analyzer:
         )
 
     def pull(self):
-        return self.history[-1]
+        return self.history[-1]['_']
