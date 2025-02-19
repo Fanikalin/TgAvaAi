@@ -1,6 +1,7 @@
 *.session
 *.session-journal
-data/
+data/*.*
+data/API
 ai/
 
 # Byte-compiled / optimized / DLL files
